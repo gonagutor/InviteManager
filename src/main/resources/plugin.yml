@@ -9,3 +9,7 @@ commands:
     description: Este comando sirve para identificarte al entrar al server por primera vez
     usage: /<command> [codigo]
     permission: InviteManager.vengode
+  invitar:
+    description: Este comando sirve para crear un codigo de invitación a tu nombre
+    usage: /<command> [usos] [expira]
+    permission: InviteManager.invitar

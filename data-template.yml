@@ -1,0 +1,13 @@
+players:
+  longUUID:
+    invitedBy: gonzalo
+    activeInvites: 1
+    codes: ["6D1GC0"]
+    invitedPlayers: ["UUID-LONG-VALUEEEEEEEE"]
+codes:
+  6D1GC0:
+    byPlayer: LOGAOSNDIJBSIDBIASNDINIJNS-ijdasfuihbsad
+    expires: false
+    expiryDate: "8/5/2019 2:30:41"
+    unlimited: true
+    invitesLeft: 1
