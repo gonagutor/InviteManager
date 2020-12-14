@@ -1,0 +1,11 @@
+name: InviteManager
+version: ${project.version}
+main: com.gonagutor.invitemanager.InviteManager
+api-version: 1.16
+authors: [ GonzaloAguadoTorres ]
+description: This plguins let players invite other players and prevent uninvited players to do anything
+commands:
+  vengode:
+    description: Este comando sirve para identificarte al entrar al server por primera vez
+    usage: /<command> [codigo]
+    permission: InviteManager.vengode
