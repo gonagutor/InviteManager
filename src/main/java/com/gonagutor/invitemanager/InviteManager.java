@@ -14,6 +14,7 @@ public final class InviteManager extends JavaPlugin {
         plf = new PlayerLogFile(this);
         this.getCommand("vengode").setExecutor(new VengodeCommand());
         this.getCommand("invitar").setExecutor(new InvitarCommand());
+        this.getCommand("im").setExecutor(new ImCommand());
         registerJoinEvent();
         getLogger().info(pluginPrefix + "§aEl plugin se ha cargado correctamente");
     }

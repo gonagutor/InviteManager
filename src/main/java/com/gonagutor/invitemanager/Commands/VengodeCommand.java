@@ -2,7 +2,9 @@ package com.gonagutor.invitemanager.Commands;
 
 import com.gonagutor.invitemanager.InviteManager;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,13 +26,18 @@ public class VengodeCommand implements CommandExecutor {
                 return;
             }
             Player player = (Player) sender;
-            if (InviteManager.plf.addPlayerToFile(player, args[0])){
+            if (InviteManager.plf.addPlayerToFile(player, args[0])) {
                 player.sendMessage(InviteManager.pluginPrefix + "§aEl codigo es correcto. Bienvenido!");
                 InviteManager.getPlugin(InviteManager.class).getServer().broadcastMessage(InviteManager.pluginPrefix + "§a§lDadle la bienvenida a " + player.getName());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission unset group.default");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set group.aldeano");
                 player.setGameMode(GameMode.SURVIVAL);
-                player.setWalkSpeed(0.2f);
                 player.setSleepingIgnored(false);
-                player.performCommand("spawn");
+                Location verSpawn = InviteManager.plf.getConfig().getLocation("plugindata.verifiedspawn");
+                if (verSpawn != null)
+                    player.teleport(verSpawn);
+                else 
+                    player.performCommand("spawn");
                 return;
             }
             return;
