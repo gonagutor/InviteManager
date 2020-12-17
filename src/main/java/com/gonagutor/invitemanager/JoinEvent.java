@@ -13,7 +13,7 @@ public class JoinEvent implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         Player player = event.getPlayer();
-        if (!InviteManager.plf.getConfig().contains("players."+ player.getUniqueId() + ".invitedBy"))
+        if (!InviteManager.plf.getConfig().contains("players." + player.getUniqueId() + ".invitedBy"))
         {
             Location welcomeSpawn = InviteManager.plf.getConfig().getLocation("plugindata.welcomespawn");
             if (welcomeSpawn != null)
