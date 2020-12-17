@@ -12,31 +12,33 @@ import org.bukkit.entity.Player;
 
 public class VengodeCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
-    {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         vengode(sender, command, label, args);
         return true;
     }
 
-    public void vengode(CommandSender sender, Command command, String label, String[] args)
-    {
+    public void vengode(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             if (args.length < 1) {
-                sender.sendMessage(InviteManager.pluginPrefix + "§cNo se usa así! Debes especificar el codigo con §a/vengode [CODIGO]");
+                sender.sendMessage(InviteManager.pluginPrefix
+                        + "§cNo se usa así! Debes especificar el codigo con §a/vengode [CODIGO]");
                 return;
             }
             Player player = (Player) sender;
             if (InviteManager.plf.addPlayerToFile(player, args[0])) {
                 player.sendMessage(InviteManager.pluginPrefix + "§aEl codigo es correcto. Bienvenido!");
-                InviteManager.getPlugin(InviteManager.class).getServer().broadcastMessage(InviteManager.pluginPrefix + "§a§lDadle la bienvenida a " + player.getName());
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission unset group.default");
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lp user " + player.getName() + " permission set group.aldeano");
+                InviteManager.getPlugin(InviteManager.class).getServer()
+                        .broadcastMessage(InviteManager.pluginPrefix + "§a§lDadle la bienvenida a " + player.getName());
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                        "lp user " + player.getName() + " permission unset group.default");
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                        "lp user " + player.getName() + " permission set group.aldeano");
                 player.setGameMode(GameMode.SURVIVAL);
                 player.setSleepingIgnored(false);
                 Location verSpawn = InviteManager.plf.getConfig().getLocation("plugindata.verifiedspawn");
                 if (verSpawn != null)
                     player.teleport(verSpawn);
-                else 
+                else
                     player.performCommand("spawn");
                 return;
             }

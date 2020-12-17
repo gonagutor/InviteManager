@@ -7,8 +7,9 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class InviteManager extends JavaPlugin {
-    public static String pluginPrefix ="§6§lInvitaciones §e>§6> ";
+    public static String pluginPrefix = "§6§lInvitaciones §e>§6> ";
     public static PlayerLogFile plf;
+
     @Override
     public void onEnable() {
         plf = new PlayerLogFile(this);
@@ -24,8 +25,7 @@ public final class InviteManager extends JavaPlugin {
         getLogger().info(pluginPrefix + "§aEl plugin se ha desactivado correctamente");
     }
 
-    public void registerJoinEvent()
-    {
+    public void registerJoinEvent() {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new JoinEvent(), this);
     }

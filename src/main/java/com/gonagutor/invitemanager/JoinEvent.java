@@ -10,11 +10,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class JoinEvent implements Listener {
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event)
-    {
+    public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (!InviteManager.plf.getConfig().contains("players." + player.getUniqueId() + ".invitedBy"))
-        {
+        if (!InviteManager.plf.getConfig().contains("players." + player.getUniqueId() + ".invitedBy")) {
             Location welcomeSpawn = InviteManager.plf.getConfig().getLocation("plugindata.welcomespawn");
             if (welcomeSpawn != null)
                 player.teleport(welcomeSpawn);
@@ -27,9 +25,9 @@ public class JoinEvent implements Listener {
     }
 
     @EventHandler
-    public void onMove(PlayerMoveEvent ePlayerMoveEvent)
-    {
-        if (!InviteManager.plf.getConfig().contains("players."+ ePlayerMoveEvent.getPlayer().getUniqueId() + ".invitedBy")){
+    public void onMove(PlayerMoveEvent ePlayerMoveEvent) {
+        if (!InviteManager.plf.getConfig()
+                .contains("players." + ePlayerMoveEvent.getPlayer().getUniqueId() + ".invitedBy")) {
             Location to = ePlayerMoveEvent.getFrom();
             to.setPitch(ePlayerMoveEvent.getTo().getPitch());
             to.setYaw(ePlayerMoveEvent.getTo().getYaw());
