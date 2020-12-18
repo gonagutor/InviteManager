@@ -36,10 +36,12 @@ public class PlayerLogFile {
 
   public void deleteCode(String code) {
     String ownerPlayer = this.getConfig().getString("codes." + code + ".byPlayer");
-    List<String> codes = this.getConfig().getStringList("player." + ownerPlayer + ".codes");
-    for (int i = 0; i < codes.size(); i++)
-      if (code == codes.get(i))
+    List<String> codes = this.getConfig().getStringList("players." + ownerPlayer + ".codes");
+    for (int i = 0; i < codes.size(); i++) {
+      if (code.equalsIgnoreCase(codes.get(i))) {
         codes.remove(i);
+      }
+    }
     this.getConfig().set("players." + ownerPlayer + ".codes", codes);
     this.getConfig().set("players." + ownerPlayer + ".activeInvites", codes.size());
     this.getConfig().set("codes." + code, null);
@@ -91,6 +93,24 @@ public class PlayerLogFile {
         return;
       }
     }
+  }
+
+  public boolean codeIsValid(String code) {
+    boolean expires = this.getConfig().getBoolean("codes." + code + ".expires");
+    int invitesLeft = this.getConfig().getInt("codes." + code + ".invitesLeft");
+    boolean unlimitedInvites = this.getConfig().getBoolean("codes." + code + ".unlimited");
+    Date expiryDate;
+    try {
+      expiryDate = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss")
+          .parse(this.getConfig().getString("codes." + code + ".expiryDate"));
+    } catch (Exception e) {
+      return false;
+    }
+    if ((expires && expiryDate.after(new Date(System.currentTimeMillis()))))
+      return false;
+    if (!unlimitedInvites && invitesLeft < 1)
+      return false;
+    return true;
   }
 
   public boolean addPlayerToFile(Player p, String code) {

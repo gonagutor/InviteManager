@@ -124,9 +124,9 @@ public class InviteGUI implements Listener {
 		if (e.getRawSlot() == 10)
 			p.sendMessage("Intento de crear una invitación");
 		if (e.getRawSlot() == 13)
-			p.sendMessage("Intento de ver los códigos");
-		if (e.getRawSlot() == 16)
-			p.sendMessage("Intento de ver los jugadores invitados");
+			GUILoader.codesGUI.openInventory(p);
+		// if (e.getRawSlot() == 16)
+		// p.sendMessage("Intento de ver los jugadores invitados");
 	}
 
 	// Cancel dragging in our inventory

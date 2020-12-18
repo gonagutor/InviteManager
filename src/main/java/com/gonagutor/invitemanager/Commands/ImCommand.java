@@ -49,7 +49,7 @@ public class ImCommand implements CommandExecutor {
     } else if (args[0].equalsIgnoreCase("gui")) {
       if (sender instanceof Player) {
         sender.sendMessage(InviteManager.pluginPrefix + "§7Abriendo gui...");
-        GUILoader.gui.openInventory((Player) sender);
+        GUILoader.inviteGUI.openInventory((Player) sender);
       } else {
         sender.sendMessage(InviteManager.pluginPrefix + "§cEste comando no lo puede ejecutar la consola");
       }
