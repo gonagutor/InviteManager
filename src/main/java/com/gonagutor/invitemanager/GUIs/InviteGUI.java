@@ -122,7 +122,7 @@ public class InviteGUI implements Listener {
 
 		final Player p = (Player) e.getWhoClicked();
 		if (e.getRawSlot() == 10)
-			p.sendMessage("Intento de crear una invitación");
+			GUILoader.createCodeGUI.openInventory(p);
 		if (e.getRawSlot() == 13)
 			GUILoader.codesGUI.openInventory(p);
 		// if (e.getRawSlot() == 16)

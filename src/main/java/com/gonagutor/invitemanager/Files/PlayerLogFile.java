@@ -48,51 +48,50 @@ public class PlayerLogFile {
     this.saveConfig();
   }
 
-  public void createCode(int uses, int expires, CommandSender sender) {
+  public String createCode(int uses, int expires, CommandSender sender) {
     CodeGenerator session = new CodeGenerator(6);
     String code = session.nextString();
     Calendar c = Calendar.getInstance();
     c.setTime(new Date(System.currentTimeMillis()));
-    c.add(Calendar.DATE, 1);
+    c.add(Calendar.HOUR, expires);
     String expiresIn = new SimpleDateFormat("dd/MM/YYYY HH:mm:ss").format(c.getTime());
     // Este codigo es horrible, pero me da pereza arreglarlo y funciona
-    while (!this.getConfig().contains("codes." + code)) {
-      if (sender instanceof ConsoleCommandSender) {
-        List<String> codes = this.getConfig().getStringList("players.Console.codes");
-        codes.add(code);
-        this.getConfig().set("codes." + code + ".byPlayer", "Console");
-        this.getConfig().set("codes." + code + ".expires", (expires == 0) ? false : true);
-        this.getConfig().set("codes." + code + ".unlimited", (uses == -1) ? true : false);
-        this.getConfig().set("codes." + code + ".expiryDate", expiresIn);
-        this.getConfig().set("codes." + code + ".invitesLeft", (uses == -1) ? 9999 : uses);
-        this.getConfig().set("players.Console.invitedBy", "Server");
-        this.getConfig().set("players.Console.activeInvites",
-            (this.getConfig().contains("players.Console.activeInvites")) ? 0
-                : this.getConfig().getInt("players.Console.activeInvites") + 1);
-        this.getConfig().set("players.Console.codes", codes);
-        this.saveConfig();
-        sender.sendMessage(
-            InviteManager.pluginPrefix + "§e Se ha generado un nuevo codigo de invitación! Código: §6§l" + code);
-        return;
-      } else if (sender instanceof Player) {
-        Player player = (Player) sender;
-        List<String> codes = this.getConfig().getStringList("players." + player.getUniqueId().toString() + ".codes");
-        codes.add(code);
-        this.getConfig().set("codes." + code + ".byPlayer", player.getUniqueId().toString());
-        this.getConfig().set("codes." + code + ".expires", (expires == 0) ? false : true);
-        this.getConfig().set("codes." + code + ".unlimited", (uses == -1) ? true : false);
-        this.getConfig().set("codes." + code + ".expiryDate", expiresIn);
-        this.getConfig().set("codes." + code + ".invitesLeft", (uses == -1) ? 9999 : uses);
-        this.getConfig().set("players." + player.getUniqueId().toString() + ".activeInvites",
-            (this.getConfig().contains("players." + player.getUniqueId().toString() + ".activeInvites")) ? 0
-                : this.getConfig().getInt("players." + player.getUniqueId().toString() + ".activeInvites") + 1);
-        this.getConfig().set("players." + player.getUniqueId().toString() + ".codes", codes);
-        this.saveConfig();
-        sender.sendMessage(
-            InviteManager.pluginPrefix + "§e Se ha generado un nuevo codigo de invitación! Código: §6§l" + code);
-        return;
-      }
+    if (sender instanceof ConsoleCommandSender) {
+      List<String> codes = this.getConfig().getStringList("players.Console.codes");
+      codes.add(code);
+      this.getConfig().set("codes." + code + ".byPlayer", "Console");
+      this.getConfig().set("codes." + code + ".expires", (expires == 0) ? false : true);
+      this.getConfig().set("codes." + code + ".unlimited", (uses == -1) ? true : false);
+      this.getConfig().set("codes." + code + ".expiryDate", expiresIn);
+      this.getConfig().set("codes." + code + ".invitesLeft", (uses == -1) ? 9999 : uses);
+      this.getConfig().set("players.Console.invitedBy", "Server");
+      this.getConfig().set("players.Console.activeInvites",
+          (this.getConfig().contains("players.Console.activeInvites")) ? 0
+              : this.getConfig().getInt("players.Console.activeInvites") + 1);
+      this.getConfig().set("players.Console.codes", codes);
+      this.saveConfig();
+      sender.sendMessage(
+          InviteManager.pluginPrefix + "§e Se ha generado un nuevo codigo de invitación! Código: §6§l" + code);
+      return code;
+    } else if (sender instanceof Player) {
+      Player player = (Player) sender;
+      List<String> codes = this.getConfig().getStringList("players." + player.getUniqueId().toString() + ".codes");
+      codes.add(code);
+      this.getConfig().set("codes." + code + ".byPlayer", player.getUniqueId().toString());
+      this.getConfig().set("codes." + code + ".expires", (expires == 0) ? false : true);
+      this.getConfig().set("codes." + code + ".unlimited", (uses == -1) ? true : false);
+      this.getConfig().set("codes." + code + ".expiryDate", expiresIn);
+      this.getConfig().set("codes." + code + ".invitesLeft", (uses == -1) ? 9999 : uses);
+      this.getConfig().set("players." + player.getUniqueId().toString() + ".activeInvites",
+          (this.getConfig().contains("players." + player.getUniqueId().toString() + ".activeInvites")) ? 0
+              : this.getConfig().getInt("players." + player.getUniqueId().toString() + ".activeInvites") + 1);
+      this.getConfig().set("players." + player.getUniqueId().toString() + ".codes", codes);
+      this.saveConfig();
+      sender.sendMessage(
+          InviteManager.pluginPrefix + "§e Se ha generado un nuevo codigo de invitación! Código: §6§l" + code);
+      return code;
     }
+    return "";
   }
 
   public boolean codeIsValid(String code) {

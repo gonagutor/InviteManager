@@ -2,8 +2,8 @@ name: InviteManager
 version: ${project.version}
 main: com.gonagutor.invitemanager.InviteManager
 api-version: 1.16
-authors: [ GonzaloAguadoTorres ]
-softdepend: [ PlaceholderAPI ]
+authors: [GonzaloAguadoTorres]
+softdepend: [PlaceholderAPI]
 description: This plguins let players invite other players and prevent uninvited players to do anything
 commands:
   vengode:
@@ -12,7 +12,7 @@ commands:
     permission: InviteManager.vengode
   invitar:
     description: Este comando sirve para crear un codigo de invitación a tu nombre
-    usage: /<command> [usos] [expira]
+    usage: /<command>
     permission: InviteManager.invitar
   im:
     description: Este comando muestra los comandos de admin
