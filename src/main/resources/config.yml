@@ -1,3 +1,9 @@
 menuGradients:
-  nameTop: "#FFAA00"
-  nameBottom: "#9B6800"
+  nameTop: "#F46B45"
+  nameBottom: "#EEA849"
+  firstItemTop: "#FDFC47"
+  firstItemBottom: "#24FE41"
+  secondItemTop: "#FC00FF"
+  secondItemBottom: "#00DBDE"
+  thirdItemTop: "#005C97"
+  thirdItemBottom: "#363795"
