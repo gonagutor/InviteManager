@@ -89,6 +89,8 @@ public class IMPlaceholders extends PlaceholderExpansion {
       for (String string : codes) {
         ret += " - " + string + "\n";
       }
+      if (ret.length() > 1)
+        ret = ret.substring(0, ret.length() - 1);
       return (ret != "") ? ret : "Ninguno";
     }
 
@@ -99,6 +101,8 @@ public class IMPlaceholders extends PlaceholderExpansion {
       for (String string : invitedPlayers) {
         ret += " - " + string + "\n";
       }
+      if (ret.length() > 1)
+        ret = ret.substring(0, ret.length() - 1);
       return (ret != "") ? ret : "Ninguno";
     }
     return null;
