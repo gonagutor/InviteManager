@@ -28,6 +28,7 @@ public class CodesGUI implements Listener {
 
 	public CodesGUI(Plugin pl) {
 		this.pl = pl;
+		pl.getServer().getPluginManager().registerEvents(this, pl);
 		String gradientTop = pl.getConfig().getString("menuGradients.nameTop");
 		String gradientBottom = pl.getConfig().getString("menuGradients.nameBottom");
 		inv = Bukkit.createInventory(null, 27,
@@ -84,7 +85,7 @@ public class CodesGUI implements Listener {
 		initializeItems();
 		int i = 10;
 		for (String code : playerCodes) {
-			if (i < 16) {
+			if (i < 17) {
 				if (!InviteManager.plf.codeIsValid(code)) {
 					InviteManager.plf.deleteCode(code);
 					continue;
@@ -102,6 +103,8 @@ public class CodesGUI implements Listener {
 	public void onInventoryClick(final InventoryClickEvent e) {
 		if (e.getInventory() != inv)
 			return;
+		if (e.getClick() == ClickType.DOUBLE_CLICK)
+			return;
 		e.setCancelled(true);
 		final ItemStack clickedItem = e.getCurrentItem();
 		if (clickedItem == null || clickedItem.getType() == Material.GRAY_STAINED_GLASS_PANE)
@@ -117,7 +120,8 @@ public class CodesGUI implements Listener {
 			openInventory(p);
 		}
 		if (clickedItem.getType() == Material.RED_CONCRETE) {
-			GUILoader.inviteGUI.openInventory(p);
+			InviteGUI igui = new InviteGUI(pl);
+			igui.openInventory(p);
 		}
 	}
 

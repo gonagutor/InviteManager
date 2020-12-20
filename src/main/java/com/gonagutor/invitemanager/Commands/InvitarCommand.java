@@ -1,26 +1,34 @@
 package com.gonagutor.invitemanager.Commands;
 
-import org.bukkit.command.CommandExecutor;
-
 import com.gonagutor.invitemanager.InviteManager;
-import com.gonagutor.invitemanager.GUIs.GUILoader;
+import com.gonagutor.invitemanager.GUIs.InviteGUI;
 
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class InvitarCommand implements CommandExecutor {
+  public Plugin pl;
+
+  public InvitarCommand(Plugin pl) {
+    this.pl = pl;
+  }
+
   @Override
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     if (sender instanceof Player) {
       if (args.length < 1) {
         sender.sendMessage(InviteManager.pluginPrefix + "§7Abriendo gui...");
-        GUILoader.inviteGUI.openInventory((Player) sender);
+        InviteGUI igui = new InviteGUI(pl);
+        igui.openInventory((Player) sender);
         return true;
       } else {
         // Implementar invitar jugador online
         sender.sendMessage(InviteManager.pluginPrefix + "§7Abriendo gui...");
-        GUILoader.inviteGUI.openInventory((Player) sender);
+        InviteGUI ig = new InviteGUI(pl);
+        ig.openInventory((Player) sender);
         return true;
       }
     } else {

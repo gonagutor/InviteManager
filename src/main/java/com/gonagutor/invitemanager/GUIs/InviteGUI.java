@@ -3,6 +3,7 @@ package com.gonagutor.invitemanager.GUIs;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import com.gonagutor.invitemanager.InviteManager;
 import com.gonagutor.invitemanager.Helpers.Gradienter;
@@ -18,6 +19,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 
@@ -29,6 +31,7 @@ public class InviteGUI implements Listener {
 		// Create a new inventory, with no owner (as this isn't a real inventory), a
 		// size of nine, called example
 		this.pl = pl;
+		pl.getServer().getPluginManager().registerEvents(this, pl);
 		String gradientTop = pl.getConfig().getString("menuGradients.nameTop");
 		String gradientBottom = pl.getConfig().getString("menuGradients.nameBottom");
 		inv = Bukkit.createInventory(null, 27,
@@ -88,7 +91,7 @@ public class InviteGUI implements Listener {
 		String thirdItemTop = pl.getConfig().getString("menuGradients.thirdItemTop");
 		String thirdItemBottom = pl.getConfig().getString("menuGradients.thirdItemBottom");
 		List<String> invitedPlayer = InviteManager.plf.getConfig()
-				.getStringList("player." + ent.getUniqueId() + ".invitedPlayers");
+				.getStringList("players." + ent.getUniqueId() + ".invitedPlayers");
 		List<String> lore = new ArrayList<String>();
 		lore.add("§eA ti te invitó: §6" + ent.getName());
 		lore.add("§eTu has invitado a: ");
@@ -96,7 +99,7 @@ public class InviteGUI implements Listener {
 		if (invitedPlayer.size() > 0)
 			for (String string : invitedPlayer) {
 				if (i < 10)
-					lore.add(" §7- §6" + Bukkit.getPlayer(string));
+					lore.add(" §7- §6" + Bukkit.getOfflinePlayer(UUID.fromString(string)).getName());
 				else {
 					lore.add("§6...");
 					break;
@@ -115,16 +118,22 @@ public class InviteGUI implements Listener {
 	public void onInventoryClick(final InventoryClickEvent e) {
 		if (e.getInventory() != inv)
 			return;
+		if (e.getClick() == ClickType.DOUBLE_CLICK)
+			return;
 		e.setCancelled(true);
 		final ItemStack clickedItem = e.getCurrentItem();
 		if (clickedItem == null || clickedItem.getType() == Material.GRAY_STAINED_GLASS_PANE)
 			return;
 
 		final Player p = (Player) e.getWhoClicked();
-		if (e.getRawSlot() == 10)
-			GUILoader.createCodeGUI.openInventory(p);
-		if (e.getRawSlot() == 13)
-			GUILoader.codesGUI.openInventory(p);
+		if (e.getRawSlot() == 10) {
+			CreateCodeGUI ccgui = new CreateCodeGUI(pl);
+			ccgui.openInventory(p);
+		}
+		if (e.getRawSlot() == 13) {
+			CodesGUI cgui = new CodesGUI(pl);
+			cgui.openInventory(p);
+		}
 		// if (e.getRawSlot() == 16)
 		// p.sendMessage("Intento de ver los jugadores invitados");
 	}

@@ -1,7 +1,8 @@
 package com.gonagutor.invitemanager.Commands;
 
 import com.gonagutor.invitemanager.InviteManager;
-import com.gonagutor.invitemanager.GUIs.GUILoader;
+import com.gonagutor.invitemanager.GUIs.HelperGUI;
+import com.gonagutor.invitemanager.GUIs.InviteGUI;
 
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.Command;
@@ -10,10 +11,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class ImCommand implements CommandExecutor {
-  public static Plugin plugin;
+  public static Plugin pl;
 
-  public ImCommand(Plugin pl) {
-    plugin = pl;
+  public ImCommand(Plugin plugin) {
+    pl = plugin;
   }
 
   @Override
@@ -49,21 +50,22 @@ public class ImCommand implements CommandExecutor {
     } else if (args[0].equalsIgnoreCase("gui")) {
       if (sender instanceof Player) {
         sender.sendMessage(InviteManager.pluginPrefix + "§7Abriendo gui...");
-        GUILoader.inviteGUI.openInventory((Player) sender);
+        InviteGUI igui = new InviteGUI(pl);
+        igui.openInventory((Player) sender);
       } else {
         sender.sendMessage(InviteManager.pluginPrefix + "§cEste comando no lo puede ejecutar la consola");
       }
     } else if (args[0].equalsIgnoreCase("helpergui")) {
       if (sender instanceof Player) {
         sender.sendMessage(InviteManager.pluginPrefix + "§7Abriendo gui...");
-        GUILoader.helpergui.openInventory((Player) sender);
+        HelperGUI hgui = new HelperGUI(pl);
+        hgui.openInventory((Player) sender);
       } else {
         sender.sendMessage(InviteManager.pluginPrefix + "§cEste comando no lo puede ejecutar la consola");
       }
     } else if (args[0].equalsIgnoreCase("reload")) {
       sender.sendMessage(InviteManager.pluginPrefix + "§7Plugin recargado correctamente");
-      plugin.reloadConfig();
-      GUILoader.loadGuis(plugin);
+      pl.reloadConfig();
     } else {
       sender.sendMessage("§6-----------------§e<§6< " + InviteManager.pluginPrefix + "§6-----------------");
       sender.sendMessage("§6 /im setnverteleport - §eEstablece el punto de aparicion de los no verificados");

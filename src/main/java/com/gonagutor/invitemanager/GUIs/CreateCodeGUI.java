@@ -14,6 +14,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 
@@ -27,6 +28,7 @@ public class CreateCodeGUI implements Listener {
 
 	public CreateCodeGUI(Plugin pl) {
 		this.pl = pl;
+		pl.getServer().getPluginManager().registerEvents(this, pl);
 		String gradientTop = pl.getConfig().getString("menuGradients.nameTop");
 		String gradientBottom = pl.getConfig().getString("menuGradients.nameBottom");
 		inv = Bukkit.createInventory(null, 27,
@@ -76,6 +78,8 @@ public class CreateCodeGUI implements Listener {
 	public void onInventoryClick(final InventoryClickEvent e) {
 		if (e.getInventory() != inv)
 			return;
+		if (e.getClick() == ClickType.DOUBLE_CLICK) // Esto arregla el bug de aumentar dos veces
+			return;
 		e.setCancelled(true);
 		final ItemStack clickedItem = e.getCurrentItem();
 		ItemStack maxPlayersI = e.getInventory().getItem(11);
@@ -86,8 +90,13 @@ public class CreateCodeGUI implements Listener {
 
 		final Player p = (Player) e.getWhoClicked();
 		if (clickedItem.getType() == Material.NAME_TAG) {
-			InviteManager.plf.createCode(maxPlayersI.getAmount(), expiryDateI.getAmount(), p);
-			GUILoader.codesGUI.openInventory(p);
+			if (InviteManager.plf.getConfig().getStringList("players." + p.getUniqueId() + ".codes").size() < 7) {
+				InviteManager.plf.createCode(maxPlayersI.getAmount(), expiryDateI.getAmount(), p);
+				CodesGUI cgui = new CodesGUI(pl);
+				cgui.openInventory(p);
+			} else
+				p.sendMessage(InviteManager.pluginPrefix
+						+ "§cTodavía tienes codigos activos. No puedes tener mas de 7 codigos activos.");
 		}
 		if (clickedItem.getType() == Material.GREEN_DYE) {
 			if (clickedItem.getItemMeta().getDisplayName().equals(increaseUsesIName)) {
@@ -122,7 +131,8 @@ public class CreateCodeGUI implements Listener {
 			}
 		}
 		if (clickedItem.getType() == Material.RED_CONCRETE) {
-			GUILoader.inviteGUI.openInventory(p);
+			InviteGUI igui = new InviteGUI(pl);
+			igui.openInventory(p);
 		}
 	}
 

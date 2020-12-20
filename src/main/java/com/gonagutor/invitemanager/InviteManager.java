@@ -2,7 +2,6 @@ package com.gonagutor.invitemanager;
 
 import com.gonagutor.invitemanager.Commands.*;
 import com.gonagutor.invitemanager.Files.PlayerLogFile;
-import com.gonagutor.invitemanager.GUIs.GUILoader;
 import com.gonagutor.invitemanager.Placeholders.IMPlaceholders;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -24,10 +23,9 @@ public final class InviteManager extends JavaPlugin {
     // Load Config FIles
     plf = new PlayerLogFile(this);
     this.saveDefaultConfig();
-    GUILoader.loadGuis(this);
     // Load Commands
     this.getCommand("vengode").setExecutor(new VengodeCommand());
-    this.getCommand("invitar").setExecutor(new InvitarCommand());
+    this.getCommand("invitar").setExecutor(new InvitarCommand(this));
     this.getCommand("im").setExecutor(new ImCommand(this));
     // Register Events
     registerJoinEvent();

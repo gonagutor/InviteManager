@@ -3,6 +3,7 @@ package com.gonagutor.invitemanager.GUIs;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
@@ -13,9 +14,10 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 public class HelperGUI implements Listener {
 	private final Inventory inv;
 
-	public HelperGUI() {
+	public HelperGUI(Plugin pl) {
 		// Create a new inventory, with no owner (as this isn't a real inventory), a
 		// size of nine, called example
+		pl.getServer().getPluginManager().registerEvents(this, pl);
 		inv = Bukkit.createInventory(null, 54, "Helper gui");
 		// Put the items into the inventory
 		initializeItems();
